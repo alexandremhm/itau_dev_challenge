@@ -11,7 +11,7 @@ connection.connect(function(err) {
 
   connection.query(sql, function (err, result) {
     if (err) throw err;
-    console.log("Table created");
+    console.log("Table permissions created");
   });
 
   // create Table users
@@ -20,42 +20,26 @@ connection.connect(function(err) {
 
   connection.query(sql, function (err, result) {
     if (err) throw err;
-    console.log("Table created");
+    console.log("Table users created");
   });
 
-  // create Table comments
+  // create Table movie_statistic
 
-  sql = "CREATE TABLE IF NOT EXISTS comments (id INT AUTO_INCREMENT PRIMARY KEY, comment VARCHAR(500))";
+  sql = "CREATE TABLE IF NOT EXISTS movie_statistic (id INT AUTO_INCREMENT PRIMARY KEY, comment VARCHAR(500), note INT, movie_name VARCHAR(500))";
 
   connection.query(sql, function (err, result) {
     if (err) throw err;
-    console.log("Table created");
+    console.log("Table comments created");
   });
 
-   // create Table user_comments
+   // create Table user_movie_statistic
 
-   sql = "CREATE TABLE IF NOT EXISTS user_ncomments (id INT AUTO_INCREMENT PRIMARY KEY, user_id INT, comment_id INT, FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE ON DELETE CASCADE, FOREIGN KEY (comment_id) REFERENCES comments (id) ON UPDATE CASCADE ON DELETE CASCADE)";
+   sql = "CREATE TABLE IF NOT EXISTS user_movie_statistic (id INT AUTO_INCREMENT PRIMARY KEY, user_id INT, movie_statistic_id INT, FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE ON DELETE CASCADE, FOREIGN KEY (movie_statistic_id) REFERENCES movie_statistic (id) ON UPDATE CASCADE ON DELETE CASCADE)";
 
    connection.query(sql, function (err, result) {
      if (err) throw err;
-     console.log("Table created");
-   });
+     console.log("Table user_comments created");
+   });  
 
-  // create Table notes
-
-  sql = "CREATE TABLE IF NOT EXISTS notes (id INT AUTO_INCREMENT PRIMARY KEY, note INT)";
-
-  connection.query(sql, function (err, result) {
-    if (err) throw err;
-    console.log("Table created");
-  });
-
-  // create Table user_notes
-
-  sql = "CREATE TABLE IF NOT EXISTS user_notes (id INT AUTO_INCREMENT PRIMARY KEY, user_id INT, note_id INT, FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE ON DELETE CASCADE, FOREIGN KEY (note_id) REFERENCES notes (id) ON UPDATE CASCADE ON DELETE CASCADE)";
-
-  connection.query(sql, function (err, result) {
-    if (err) throw err;
-    console.log("Table created");
-  });
+  connection.end();
 });
