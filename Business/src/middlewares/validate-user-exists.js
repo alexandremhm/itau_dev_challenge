@@ -2,8 +2,6 @@ const { connection } = require('../database/connection')
 
 const validateUserExists = async (req, res, next) => {
   const { name, email } = req.body;
-
-  console.log(name, email)
   
   const sql = `SELECT * FROM users WHERE name = ? AND email = ?`
 
