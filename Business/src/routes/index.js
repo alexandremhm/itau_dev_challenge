@@ -1,5 +1,5 @@
-const contact = require('./contact');
+const getMovieByTitle = require('./get-movie-by-title-route');
 
 module.exports = {
-  contact,
+  getMovieByTitle,
 };
