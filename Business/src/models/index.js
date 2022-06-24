@@ -1,5 +1,9 @@
 const { connection } = require('../database/connection')
-class MovieReviewModel {  
+require('dotenv').config();
+
+const CryptoJS = require("crypto-js");
+
+class MovieReviewModel {
   constructor () {
     this.connection = connection;
   }
@@ -14,6 +18,52 @@ class MovieReviewModel {
       console.log("User created!");
     });
   }
+
+  userLogin = async ({email, password}) => {
+    const sql = `SELECT * FROM users WHERE email = '${email}'`
+    const results = await connection.promise().query(sql)
+    const response = JSON.parse(JSON.stringify(results[0]))
+
+    if (response.length === 0) {
+      return 'User not found';
+    } 
+    const encryptedPassord = (response[0].password);
+
+    const {SECRET} = process.env;
+
+    const decryptedPassword = Object(CryptoJS.AES.decrypt(encryptedPassord, SECRET));
+
+    const decryptedPasswordString = decryptedPassword.toString(CryptoJS.enc.Utf8);
+
+    if (decryptedPasswordString !== password) {
+      return 'Email or password do not exists!'
+    } else {
+      return;
+    }
+  } 
+
+  // userLogin = async ({email, password}, callback) => {
+  //   const sql = `SELECT * FROM users WHERE email = ?`
+
+  //   connection.execute(sql, [email], function (err, result) {   
+  //     if (result.length === 0) {
+  //       return callback( 'User not found');
+  //     } 
+  //     const encryptedPassord = (JSON.parse(JSON.stringify(result[0])).password);
+
+  //     const {SECRET} = process.env;
+
+  //     const decryptedPassword = Object(CryptoJS.AES.decrypt(encryptedPassord, SECRET));
+
+  //     const decryptedPasswordString = decryptedPassword.toString(CryptoJS.enc.Utf8);
+
+  //     if (decryptedPasswordString !== password) {
+  //       return callback('Email or password do not exists!')
+  //     } else {
+  //       return;
+  //     }
+  //   });
+  // }
 }
 
 module.exports = {MovieReviewModel};
