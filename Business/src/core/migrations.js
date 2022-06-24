@@ -14,6 +14,13 @@ connection.connect(function(err) {
     console.log("Table permissions created");
   });
 
+  sql = "INSERT into permissions (role_permission) VALUES ('LEITOR'), ('BÁSICO'), ('AVANÇADO'), ('MODERADOR')";
+
+  connection.query(sql, function (err, result) {
+    if (err) throw err;
+    console.log("Table permissions created");
+  });
+
   // create Table users
 
   sql = "CREATE TABLE IF NOT EXISTS users (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255), points INT, email VARCHAR(500), password VARCHAR(500), permission_id INT, FOREIGN KEY (permission_id) REFERENCES permissions (id) ON UPDATE CASCADE ON DELETE CASCADE)";
