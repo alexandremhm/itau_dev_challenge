@@ -9,7 +9,10 @@ app.use(express.json());
 
 app.use(cors());
 
+app.use('/itau-devs/user', routes.userRegister);
+
 app.use('/itau-devs', routes.getMovieByTitle);
+
 
 app.use((_req, res) => {
   res.status(404).send('Endpoint not found');
