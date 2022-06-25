@@ -41,29 +41,18 @@ class MovieReviewModel {
       return;
     }
   } 
+  
+  getMovieInfosByTitle = async (movie) => {
+    const sql = `SELECT * FROM movie_statistic WHERE movie_name = '${movie}'`;
+    const results = await connection.promise().query(sql)
+    const response = JSON.parse(JSON.stringify(results[0]))
 
-  // userLogin = async ({email, password}, callback) => {
-  //   const sql = `SELECT * FROM users WHERE email = ?`
-
-  //   connection.execute(sql, [email], function (err, result) {   
-  //     if (result.length === 0) {
-  //       return callback( 'User not found');
-  //     } 
-  //     const encryptedPassord = (JSON.parse(JSON.stringify(result[0])).password);
-
-  //     const {SECRET} = process.env;
-
-  //     const decryptedPassword = Object(CryptoJS.AES.decrypt(encryptedPassord, SECRET));
-
-  //     const decryptedPasswordString = decryptedPassword.toString(CryptoJS.enc.Utf8);
-
-  //     if (decryptedPasswordString !== password) {
-  //       return callback('Email or password do not exists!')
-  //     } else {
-  //       return;
-  //     }
-  //   });
-  // }
+    if (response.length === 0) {
+      return 'Movie not found';
+    }
+    return response;
+  } 
+  
 }
 
 module.exports = {MovieReviewModel};
