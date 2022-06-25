@@ -39,7 +39,7 @@ class MovieReviewService {
       algorithm: 'HS256',
     };
 
-    const token = jwt.sign({ email }, this.SECRET, jwtConfig);
+    const token = jwt.sign({ key: 'itau-devs' }, this.SECRET, jwtConfig);
 
     return token;
   }
