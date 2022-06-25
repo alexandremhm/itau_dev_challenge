@@ -24,6 +24,19 @@ class MovieReviewController {
       return res.status(500).json({ message: 'An unexpected server error occurred, please try again later!' });
     }
   };
+
+  userLogin = async (req, res) => {
+    const {email, password} = req.body;    
+    try {
+      const token = await this.movieReviewService.userLogin({email, password});
+
+      if (typeof token !== 'string')  return res.status(500).json({ message: token.response });
+
+      return res.status(200).json({ message: `Success! Wellcome ${email}`, token });
+    } catch (err) {
+      return res.status(500).json({ message: err });
+    }
+  }
 }
 
 module.exports = {MovieReviewController}
