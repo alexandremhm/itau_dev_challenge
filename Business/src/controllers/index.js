@@ -37,6 +37,16 @@ class MovieReviewController {
       return res.status(500).json({ message: err });
     }
   }
+
+  getMovieInfosByTitle = async (req, res) => {
+    const {movie} = req.body;
+    try {
+      const movieInfos = await this.movieReviewService.getMovieInfosByTitle(movie);
+      return res.status(201).json({ message: 'Success! movie found', movieInfos });
+    } catch (err) {
+      return res.status(500).json({ message: err });
+    }
+  }
 }
 
 module.exports = {MovieReviewController}
