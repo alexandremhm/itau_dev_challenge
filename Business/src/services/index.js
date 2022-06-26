@@ -49,6 +49,12 @@ class MovieReviewService {
     
     return response;
   }
+
+  scoreMovieByTitle = async (movie, note, userId) => {
+    const response = await this.movieReviewModel.scoreMovieByTitle(movie, note, userId);
+
+    return response;    
+  } 
 }
 
 module.exports = {MovieReviewService}

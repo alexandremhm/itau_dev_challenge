@@ -32,21 +32,12 @@ connection.connect(function(err) {
 
   // create Table movie_statistic
 
-  sql = "CREATE TABLE IF NOT EXISTS movie_statistic (id INT AUTO_INCREMENT PRIMARY KEY, comment VARCHAR(500), note INT, movie_name VARCHAR(500))";
+  sql = "CREATE TABLE IF NOT EXISTS movie_statistic (id INT AUTO_INCREMENT PRIMARY KEY, comment VARCHAR(500), note INT, movie_name VARCHAR(500), user_id int, CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE ON DELETE CASCADE)";
 
   connection.query(sql, function (err, result) {
     if (err) throw err;
     console.log("Table comments created");
-  });
-
-   // create Table user_movie_statistic
-
-   sql = "CREATE TABLE IF NOT EXISTS user_movie_statistic (id INT AUTO_INCREMENT PRIMARY KEY, user_id INT, movie_statistic_id INT, FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE ON DELETE CASCADE, FOREIGN KEY (movie_statistic_id) REFERENCES movie_statistic (id) ON UPDATE CASCADE ON DELETE CASCADE)";
-
-   connection.query(sql, function (err, result) {
-     if (err) throw err;
-     console.log("Table user_comments created");
-   });  
+  }); 
 
   connection.end();
 });

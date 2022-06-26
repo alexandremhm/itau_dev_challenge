@@ -47,6 +47,18 @@ class MovieReviewController {
       return res.status(500).json({ message: err });
     }
   }
+
+  scoreMovieByTitle = async (req, res) => {
+    const {movie, note} = req.body;
+    const {userId} = req.params;
+    
+    try {
+      await this.movieReviewService.scoreMovieByTitle(movie, note, userId);
+      return res.status(201).json({ message: 'Success! movie scored' });
+    } catch (err) {
+      return res.status(500).json({ message: err });
+    }
+  }
 }
 
 module.exports = {MovieReviewController}
