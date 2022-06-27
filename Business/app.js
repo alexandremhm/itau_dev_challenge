@@ -13,8 +13,6 @@ app.use('/itau-devs', routes.movies);
 
 app.use('/itau-devs/user', routes.userRegister);
 
-app.use('/itau-devs', routes.userLogin);
-
 app.use('/itau-devs', routes.getMovieByTitle);
 
 
