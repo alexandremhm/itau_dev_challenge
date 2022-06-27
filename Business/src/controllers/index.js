@@ -59,6 +59,18 @@ class MovieReviewController {
       return res.status(500).json({ message: err });
     }
   }
+
+  commentMovie = async (req, res) => {
+    const {movie, comment} = req.body;
+    const {userId} = req.params;
+    try {
+      const response = await this.movieReviewService.commentMovie(userId, movie, comment);
+      if (response) return res.status(404).json({ message: response });
+      return res.status(201).json({ message: 'Success! movie commented' });
+    } catch (err) {
+      return res.status(500).json({ message: err });
+    }
+  }
 }
 
 module.exports = {MovieReviewController}
