@@ -14,7 +14,7 @@ class MovieReviewModel {
     const response = JSON.parse(JSON.stringify(results[0]))
 
     if (response.length === 0) {
-      return 'User not found';
+      return 'Email or password do not exists!';
     } 
     const encryptedPassord = (response[0].password);
 
