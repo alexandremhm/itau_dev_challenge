@@ -26,23 +26,7 @@ class MovieReviewService {
     }
 
     await this.movieReviewModel.userRegister(response);
-  }
-
-  userLogin = async (email, password) => {
-
-    const response = await this.movieReviewModel.userLogin(email, password);   
-   
-    if (response) return {response};
-
-    const jwtConfig = {
-      expiresIn: '1h',
-      algorithm: 'HS256',
-    };
-
-    const token = jwt.sign({ key: 'itau-devs' }, this.SECRET, jwtConfig);
-
-    return token;
-  }
+  }  
 
   getMovieInfosByTitle = async (movie) => {
     const response = await this.movieReviewModel.getMovieInfosByTitle(movie);  
@@ -54,7 +38,13 @@ class MovieReviewService {
     const response = await this.movieReviewModel.scoreMovieByTitle(movie, note, userId);
 
     return response;    
-  } 
+  }
+
+  commentMovie = async (userId, movie, comment) => {
+    const response = await this.movieReviewModel.commentMovie(userId, movie, comment);
+
+    return response;
+  }
 }
 
 module.exports = {MovieReviewService}
