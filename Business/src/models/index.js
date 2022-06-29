@@ -30,7 +30,7 @@ class MovieReviewModel {
     return response;
   } 
 
-  getUserByName = async (userId) => {
+  getUserById = async (userId) => {
     const sql = `SELECT * FROM users WHERE id = '${userId}'`;
     const results = await connection.promise().query(sql)
     const response = JSON.parse(JSON.stringify(results[0]))
@@ -56,7 +56,7 @@ class MovieReviewModel {
       case 100:
         permission_id = 3;
         break
-      case 1000:
+      case points >= 1000:
         permission_id = 4;
         break
       default:
@@ -67,7 +67,7 @@ class MovieReviewModel {
   }
 
   updateUserPermission = async (userId) => {
-    const user = await this.getUserByName(userId);
+    const user = await this.getUserById(userId);
 
     const points = user.points;
     
@@ -89,7 +89,7 @@ class MovieReviewModel {
       return 'Movie not found';
     }
 
-    const user = await this.getUserByName(userId);
+    const user = await this.getUserById(userId);
 
     const newNote = Number(user.points) + 1;
 
@@ -98,7 +98,7 @@ class MovieReviewModel {
     await this.updateUserPermission(userId);
   }
 
-  getMovieByName = async (movie) => {
+  getCommentByMovieName = async (movie) => {
     const sql = `SELECT * FROM movie_comments WHERE movie_name = '${movie}'`;
     const results = await connection.promise().query(sql);
     const response = JSON.parse(JSON.stringify(results[0]));
@@ -108,7 +108,7 @@ class MovieReviewModel {
 
   commentMovie = async (userId, movieName, comment) => {
 
-    const user = await this.getUserByName(userId);
+    const user = await this.getUserById(userId);
 
     const permissionId = user.permission_id;
 
@@ -119,8 +119,16 @@ class MovieReviewModel {
     await connection.promise().query(sql)
   }
 
+  getCommentById = async (commentId) => {
+    const sql = `SELECT * FROM movie_comments WHERE id = '${commentId}'`;
+    const results = await connection.promise().query(sql);
+    const response = JSON.parse(JSON.stringify(results[0]));
+
+    return response[0];
+  }
+
   replyComment = async (userId, movieCommentId, commentReply) => {
-    const user = await this.getUserByName(userId);
+    const user = await this.getUserById(userId);
     const permissionId = user.permission_id;
 
     if (permissionId === '1') return 'User is not allowed to reply a comment!';
@@ -128,8 +136,76 @@ class MovieReviewModel {
     let sql = `INSERT INTO movie_comment_reply (movie_comment_id, comment_reply, user_id) VALUES ('${movieCommentId}', '${commentReply}', '${userId}')`;
 
     await connection.promise().query(sql)
+
+    const newNote = Number(user.points) + 1;
+
+    await this.updateUserNote(userId, newNote);
   }
-}
+
+  quoteComment = async (userId, commentId, comment) => {
+    const user = await this.getUserById(userId);
+
+    const permissionId = user.permission_id;
+
+    if (permissionId < 3) return 'User is not allowed to quote a comment!';
+
+    const commentToQuote = await this.getCommentById(commentId);
+
+    const userFromComment = await this.getUserById(commentToQuote.user_id);
+
+    const newComment = `'${commentToQuote.comment}'(${userFromComment.name}) - ${comment}`;
+
+    return newComment;
+  }
+
+  likeComment = async (userId, movieCommentId) => {
+    const user = await this.getUserById(userId);
+
+    const permissionId = user.permission_id;
+
+    if (permissionId < 3) return 'User is not allowed to like a comment!';
+
+    let sql = `INSERT INTO like_movie_comment (movie_comment_id, user_id, like_comment) VALUES ('${movieCommentId}', '${userId}', 1)`;
+
+    await connection.promise().query(sql);
+  }
+
+  commentIsRepeated = async (userId, commentId) => {
+    const user = await this.getUserById(userId);
+
+    const permissionId = user.permission_id;
+
+    if (permissionId < 4) return 'User is not allowed to mark a comment as repeated!';
+
+    let sql = `UPDATE movie_comments set is_repeated = 1 WHERE id = '${commentId}';`;
+
+    await connection.promise().query(sql);
+  }
+
+  commentDelete = async (userId, commentId) => {
+    const user = await this.getUserById(userId);
+
+    const permissionId = user.permission_id;
+
+    if (permissionId < 4) return 'User is not allowed to delete a comment!';
+
+    let sql = `DELETE FROM movie_comments WHERE id = '${commentId}';`;
+
+    await connection.promise().query(sql);
+  }
+
+  promoteUserToModerator = async (userId, userToPromoteId) => {
+    const user = await this.getUserById(userId);
+
+    const permissionId = user.permission_id;
+
+    if (permissionId < 4) return 'User is not allowed to mark a comment as repeated!';
+
+    let sql = `UPDATE users set permission_id = 4, points = 1000 WHERE id = '${userToPromoteId}';`;
+
+    await connection.promise().query(sql);
+  }
+ }
 
 module.exports = {MovieReviewModel};
 

@@ -45,6 +45,40 @@ class MovieReviewService {
 
     return response;
   }
+
+  replyComment = async (userId, movieCommentId, commentReply) => {
+    const response = await this.movieReviewModel.replyComment(userId, movieCommentId, commentReply);
+
+    return response;
+  }
+
+  quoteComment = async (userId, commentId, comment) => {
+    const response = await this.movieReviewModel.quoteComment(userId, commentId, comment);
+
+    return response;
+  }
+
+  likeComment = async (userId, commentId) => {
+    await this.movieReviewModel.likeComment(userId, commentId);
+  }
+
+  commentIsRepeated = async (userId, commentId) => {
+    const response = await this.movieReviewModel.commentIsRepeated(userId, commentId);
+
+    return response;
+  }
+
+  commentDelete = async (userId, commentId) => {
+    const response = await this.movieReviewModel.commentDelete(userId, commentId);
+
+    return response;
+  }
+
+  promoteUserToModerator = async (userId, userToPromoteId) => {
+    const response = await this.movieReviewModel.promoteUserToModerator(userId, userToPromoteId);
+
+    return response;
+  }
 }
 
 module.exports = {MovieReviewService}
