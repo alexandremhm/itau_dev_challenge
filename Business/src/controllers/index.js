@@ -29,6 +29,7 @@ class MovieReviewController {
     const {movie} = req.body;
     try {
       const movieInfos = await this.movieReviewService.getMovieInfosByTitle(movie);
+      if (typeof movieInfos === 'string') return res.status(404).json({message: movieInfos});
       return res.status(201).json({ message: 'Success! movie found', movieInfos });
     } catch (err) {
       return res.status(500).json({ message: err });
@@ -43,7 +44,7 @@ class MovieReviewController {
       await this.movieReviewService.scoreMovieByTitle(movie, note, userId);
       return res.status(201).json({ message: 'Success! movie scored' });
     } catch (err) {
-      return res.status(500).json({ message: err });
+      return res.status(500).json({ message: 'Verify the fields and try again' });
     }
   }
 
@@ -108,7 +109,7 @@ class MovieReviewController {
     try {
       const response = await this.movieReviewService.commentDelete(userId, commentId);
       if (response) return res.status(404).json({ message: response });
-      return res.status(200).json({ message: 'Success! comment deletred!' });
+      return res.status(200).json({ message: 'Success! comment deleted!' });
     } catch (err) {
       return res.status(500).json({ message: err });
     }
