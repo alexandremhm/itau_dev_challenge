@@ -1,9 +1,6 @@
 const {getMovieByTitle} = require('../api/movie-search-api')
-const jwt = require('jsonwebtoken');
 const CryptoJS = require("crypto-js");
 const { MovieReviewModel } = require("../models");
-const Base64  = require('crypto-js/enc-base64');
-
 
 class MovieReviewService {
   constructor () {

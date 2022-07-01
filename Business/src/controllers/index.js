@@ -11,7 +11,7 @@ class MovieReviewController {
       const response = await this.movieReviewService.getMovieByTitle(movieTitle);
       return res.status(200).json({ message: 'Success! Movie found, have fun!', response });
     } catch {
-      return res.status(404).json({ message: 'Movie not found!' });
+      return res.status(403).json({ message: 'Movie not found!' });
     }
   };
 
@@ -32,7 +32,7 @@ class MovieReviewController {
       if (typeof movieInfos === 'string') return res.status(404).json({message: movieInfos});
       return res.status(201).json({ message: 'Success! movie found', movieInfos });
     } catch (err) {
-      return res.status(500).json({ message: err });
+      return res.status(500).json({ message: 'An unexpected server error occurred, please try again later!' });
     }
   }
 
@@ -44,7 +44,7 @@ class MovieReviewController {
       await this.movieReviewService.scoreMovieByTitle(movie, note, userId);
       return res.status(201).json({ message: 'Success! movie scored' });
     } catch (err) {
-      return res.status(500).json({ message: 'Verify the fields and try again' });
+      return res.status(500).json({ message: 'An unexpected server error occurred, please try again later!' });
     }
   }
 
@@ -56,7 +56,7 @@ class MovieReviewController {
       if (response) return res.status(404).json({ message: response });
       return res.status(201).json({ message: 'Success! movie commented' });
     } catch (err) {
-      return res.status(500).json({ message: err });
+      return res.status(500).json({ message: 'An unexpected server error occurred, please try again later!' });
     }
   }
 
@@ -68,7 +68,7 @@ class MovieReviewController {
       if (response) return res.status(404).json({ message: response });
       return res.status(201).json({ message: 'Success! movie commented' });
     } catch (err) {
-      return res.status(500).json({ message: err });
+      return res.status(500).json({ message: 'An unexpected server error occurred, please try again later!' });
     }
   }
 
@@ -79,7 +79,7 @@ class MovieReviewController {
       const response = await this.movieReviewService.quoteComment(userId, commentId, comment);
       return res.status(200).json({ message: response });
     } catch (err) {
-      return res.status(500).json({ message: err });
+      return res.status(500).json({ message: 'An unexpected server error occurred, please try again later!' });
     }
   }
 
@@ -89,7 +89,7 @@ class MovieReviewController {
       await this.movieReviewService.likeComment(userId, commentId);
       return res.status(200).json({ message: 'Success! comment liked!' });
     } catch (err) {
-      return res.status(500).json({ message: err });
+      return res.status(500).json({ message: 'An unexpected server error occurred, please try again later!' });
     }
   }
 
@@ -100,7 +100,7 @@ class MovieReviewController {
       if (response) return res.status(404).json({ message: response });
       return res.status(200).json({ message: 'Success! comment marked as repeated!' });
     } catch (err) {
-      return res.status(500).json({ message: err });
+      return res.status(500).json({ message: 'An unexpected server error occurred, please try again later!' });
     }
   }
 
@@ -111,7 +111,7 @@ class MovieReviewController {
       if (response) return res.status(404).json({ message: response });
       return res.status(200).json({ message: 'Success! comment deleted!' });
     } catch (err) {
-      return res.status(500).json({ message: err });
+      return res.status(500).json({ message: 'An unexpected server error occurred, please try again later!' });
     }
   }
 
@@ -122,7 +122,7 @@ class MovieReviewController {
       if (response) return res.status(404).json({ message: response });
       return res.status(200).json({ message: 'Success! user promoted to moderator!'});
     } catch (err) {
-      return res.status(500).json({ message: err });
+      return res.status(500).json({ message: 'An unexpected server error occurred, please try again later!' });
     }
   }
 
