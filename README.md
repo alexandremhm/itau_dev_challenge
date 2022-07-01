@@ -2,7 +2,7 @@
 
 ## Sobre a aplicação
 
-A aplicação consiste em um sistema de avaliação de filmes, permitindo ao usuário comentar, dar likes e responder a comentários de um determinado filme. Além disso, a aplicação se comunica com a API externa [OMDb API](https://www.omdbapi.com/). O sistema de login, atenticação e seguranã é controlado por uma segunda API, aqui chamada de **Login**. Todas as informações salvas na aplicação são inseridas em um banco de dados relacional MySql.
+A aplicação consiste em um sistema de avaliação de filmes, permitindo ao usuário comentar, dar likes e responder a comentários de um determinado filme. Além disso, a aplicação se comunica com a API externa [OMDb API](https://www.omdbapi.com/). O sistema de login, atenticação e segurança é controlado por uma segunda API, aqui chamada de **Login**. Todas as informações salvas na aplicação são inseridas em um banco de dados relacional MySql.
 
 ## Requisitos para rodar a aplicação
 
