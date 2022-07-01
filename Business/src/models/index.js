@@ -1,8 +1,6 @@
 const { connection } = require('../database/connection')
 require('dotenv').config();
 
-const CryptoJS = require("crypto-js");
-
 class MovieReviewModel {
   constructor () {
     this.connection = connection;
@@ -47,23 +45,11 @@ class MovieReviewModel {
   } 
 
   switchUserPermission = (points) => {
-    let permission_id = 1
+    let permission_id = 1;
 
-    switch(points) {
-      case 20:
-        permission_id = 2;
-        break;
-      case 100:
-        permission_id = 3;
-        break
-      case points >= 1000:
-        permission_id = 4;
-        break
-      default:
-        permission_id = 1;
-    }
-
-    return permission_id;
+    if (points >= 20 && points < 100) return permission_id = 2;
+    if (points >= 100 && points < 1000) return permission_id = 3;
+    if (points >= 1000) return permission_id = 4;
   }
 
   updateUserPermission = async (userId) => {

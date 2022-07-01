@@ -232,6 +232,14 @@ Após 3 tentativas falhas de login seguidas, o sistema bloqueará a tentativa de
 }
 ```
 
+**Além disso foi implementado um serviço de email que enviará uma mensagem ao usuário. Como credenciais de email são um dado sensível, essa aplicação utiliza uma conta de email teste do proprio pacote nodemailer**
+
+Caso queira ver a saída de notificação, basta verificar o terminal onde a aplicação `Login` está rodando e clicar no link que será impresso neste terminal. O link terá um formato parecido com: 
+
+```url
+https://ethereal.email/message/Yr98RcnYHerETj-zYr98SFZBFob349W6AAAAAbmI1-R-71guN-eBSZ66vXc
+```
+
 ### score-movie
 
 Insere uma nota a um determinado filme

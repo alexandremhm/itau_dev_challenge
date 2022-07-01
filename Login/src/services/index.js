@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const NodeCache = require( "node-cache" );
 
 const { MovieReviewModel } = require("../models");
+const { notification } = require('../notification');
 
 class MovieReviewService {
   constructor () {
@@ -18,6 +19,7 @@ class MovieReviewService {
     const response = await this.getCache(key)
 
     if (response && response.attempts === 3) {
+      await notification(key);
       return 'Number of allowed attempts exceeded, user blocked'
     }
 
